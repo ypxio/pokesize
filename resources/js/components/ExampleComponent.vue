@@ -35,8 +35,8 @@
 
 			<div v-for="dt in data" :key="dt.url" style="width: auto" class="d-flex align-items-end flex-column pokemon">
 				<a href="#" @click="renderDetail(dt)" data-toggle="modal" data-target="#pokeDetail" class="mt-auto mr-5 text-center">
-					<img v-bind:src="(loadedPokemonCount === dt.detail.id) ? dt.detail.sprites.front_shiny : dt.detail.sprites.front_default" v-bind:style="{ height: getHeightFormula(dt.detail.height) + 'px' }" />
-					<h6 class="name">{{ dt.name }}</h6>
+					<img v-bind:src="dt.image" v-bind:style="{ height: dt.detail.height * 10 + 'px' }" />
+					<h6 class="name mt-3">{{ dt.name }}</h6>
 					<small>({{ dt.detail.height/10}}m)</small>
 				</a>
 			</div>
@@ -68,6 +68,8 @@
 
 <script>
 
+var Jimp = require('jimp');
+
 export default {
 
 	mounted() {
@@ -96,7 +98,11 @@ export default {
 					this.getDetail(index+1).then(poke => {
 						this.loading = false
 						pokemon.detail = poke.data
-						this.data.push(pokemon)
+						this.trimImage(poke.data.sprites.front_default).then(img => {
+							pokemon.image = img
+							this.data.push(pokemon)
+						})
+						console.log(pokemon)
 						console.log(pokemon.name + ' has been spawned!')
 						// resolve(pokemon)
 					})
@@ -113,20 +119,16 @@ export default {
         })
       })
 		},
-		getHeightFormula (height) {
-			if(height < 10) {
-				return height * 20
-			} else if(height >= 10 && height < 20) {
-				return height * 12
-			} else if(height >=20 && height < 50) {
-				return height * 10
-			}
-		},
 		loadMore () {
 			alert('this function will be coming very soon!')
 		},
 		renderDetail (pokemon) {
 			this.selectedPokemon = pokemon 
+		},
+		trimImage(imageURL) {
+			return Jimp.read(imageURL).then(image => {
+				return image.autocrop().getBase64Async(Jimp.MIME_PNG)
+			})
 		}
 	}
 
