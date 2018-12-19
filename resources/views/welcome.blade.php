@@ -10,7 +10,7 @@
         <!-- <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css"> -->
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
         <link href="https://unpkg.com/nes.css/css/nes.min.css" rel="stylesheet" />
-
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet"/>
         <!-- Styles -->
         <style>
             body {
