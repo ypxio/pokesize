@@ -1,4 +1,5 @@
 # Pokesize - Pokemon Size Comparison
+<img src="https://raw.githubusercontent.com/ypxio/pokesize/master/ss.png" />
 <ul>
   <li>This project was built on Laravel API with Vue</li>
   <li>Since original PokeAPI having problems on CORS, this project using mirrored verison of PokeAPI <a href="pokeapi.salestock.net/api/v2/" target="_blank">(http:pokeapi.salestock.net)</a></li>
