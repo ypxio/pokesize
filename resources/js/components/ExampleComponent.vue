@@ -191,7 +191,7 @@ export default {
 			this.fetchPokemon(this.offset)
 		},
 		fetchPokemon (offset) {
-			window.axios.get(`/api/pokemon/?limit=${this.limit}&offset=${offset}`).then(response => {
+			window.axios.get(`/api/pokemon?limit=${this.limit}&offset=${offset}`).then(response => {
 				let pokemons = response.data.results
 				let promises = []
 				pokemons.map((pokemon, index) => promises.push(new Promise(resolve => {

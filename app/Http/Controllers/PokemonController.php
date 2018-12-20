@@ -14,7 +14,7 @@ class PokemonController extends Controller
     {
         $limit = $request->input('limit');
         $offset = $request->input('offset');
-        return Pokemon::request("/pokemon/?limit={$limit}&offset={$offset}");
+        return Pokemon::request("/pokemon?limit={$limit}&offset={$offset}");
     }
     
     public function detail($id)
