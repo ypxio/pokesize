@@ -11,7 +11,7 @@
 				<!-- <small>inspired from <a target="_blank" href="https://web.facebook.com/BlackOkumura/videos/1265385833603495/">this Facebook post</a></small> -->
 				<br>
 				<small v-if="!loading">
-					<button @click="loadMore" v-if="loadedPokemonCount%limit === 0 && loadedPokemonCount != 0" class="nes-btn is-error">
+					<button @click="loadMore" v-if="(loadedPokemonCount+failedPokemonCount)%limit === 0 && loadedPokemonCount != 0" class="nes-btn is-error">
 						Load more {{ limit }} pokemon
 					</button>
 				</small>
@@ -28,7 +28,7 @@
 				<div class="col-11 d-flex justify-content-start" style="height: 300px">
 					<div class="message -left">
 						<div class="nes-balloon from-left">
-							<p>{{ loading ? (loadedPokemonCount >= limit ? 'Summoning more pokemon...' : 'Summoning all pokemon...') : loadedPokemonCount + ' Pokemon spawned!'}}</p>
+							<p>{{ loading ? (loadedPokemonCount >= limit ? 'Summoning more pokemon...' : 'Summoning all pokemon...') : loadedPokemonCount + ' Pokemon spawned!' + ((failedPokemonCount > 0) ? failedPokemonCount + ' looks busy :(' : '') }}</p>
 						</div>
 					</div>
 				</div>
@@ -180,6 +180,7 @@ export default {
 			data: [],
 			loading: false,
 			loadedPokemonCount: 0,
+			failedPokemonCount: 0,
 			selectedPokemon: {},
 			limit: 10,
 			offset: 0,
@@ -197,16 +198,18 @@ export default {
 				let promises = []
 				pokemons.map((pokemon, index) => promises.push(new Promise(resolve => {
 					let pokeId = pokemon.url.split('/')[pokemon.url.split('/').length - 2]
-					this.getDetail(pokeId).then(poke => {
-						this.loading = false
-						pokemon.detail = poke.data
-						this.trimImage(poke.data.sprites.front_default).then(img => {
-							pokemon.image = img
-							this.data.push(pokemon)
+					this.getDetail(pokeId)
+						.then(poke => {
+							this.loading = false
+							pokemon.detail = poke.data
+							this.trimImage(poke.data.sprites.front_default).then(img => {
+								pokemon.image = img
+								this.data.push(pokemon)
+							})
+							console.log(pokemon)
+							console.log(pokemon.name + ' has been spawned!')
 						})
-						console.log(pokemon)
-						console.log(pokemon.name + ' has been spawned!')
-					})
+						
 				})))
       })
 		},
@@ -215,7 +218,11 @@ export default {
         window.axios.get(`/api/pokemon/${id}`).then(pokemon => {
 					resolve(pokemon)
 					this.loadedPokemonCount++
-        })
+				})
+				.catch(e => {
+					this.failedPokemonCount++
+					// this.data.push(pokemon)
+				})
       })
 		},
 		loadMore () {
