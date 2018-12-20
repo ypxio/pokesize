@@ -10,7 +10,7 @@ use App\Pokemon;
 
 class PokemonController extends Controller
 {
-    public function get(Request $request)
+    public function all(Request $request)
     {
         $limit = $request->input('limit');
         $offset = $request->input('offset');
