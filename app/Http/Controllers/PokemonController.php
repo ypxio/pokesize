@@ -10,9 +10,11 @@ use App\Pokemon;
 
 class PokemonController extends Controller
 {
-    public function all()
+    public function get(Request $request)
     {
-        return Pokemon::request("/pokemon/");
+        $limit = $request->input('limit');
+        $offset = $request->input('offset');
+        return Pokemon::request("/pokemon/?limit={$limit}&offset={$offset}");
     }
     
     public function detail($id)

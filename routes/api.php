@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::get('/pokemon/all', 'PokemonController@all');
-Route::get('/pokemon/detail/{id}', 'PokemonController@detail');
+Route::get('/pokemon/', 'PokemonController@get');
+Route::get('/pokemon/{id}', 'PokemonController@detail');
