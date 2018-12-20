@@ -2,13 +2,11 @@
 	<div class="container-fluid d-flex flex-column h-100">
 		<a class="github-link" data-toggle="modal" data-target="#informationModal">
       <p class="nes-balloon from-right">Click Me <br> for information!</p>
-      <!-- <i class="nes-octocat"></i> -->
     </a>
 
 		<header class="row text-center mt-5">
 			<div class="col-12">
 				<h1>Pokemon Size Comparison</h1>
-				<!-- <small>inspired from <a target="_blank" href="https://web.facebook.com/BlackOkumura/videos/1265385833603495/">this Facebook post</a></small> -->
 				<br>
 				<small v-if="!loading">
 					<button @click="loadMore" v-if="(loadedPokemonCount+failedPokemonCount)%limit === 0 && loadedPokemonCount != 0" class="nes-btn is-error">
@@ -18,7 +16,7 @@
 			</div>
 		</header>
 
-		<div style="position: absolute; bottom: 0; width: 50% ash" class="mb-5 ml-5 text-center">
+		<div class="ash mb-5 ml-5 text-center">
 			<div class="row d-flex align-items-end">
 				<div class="col-1">
 					<img src="/images/ash.png" style="height: 160px" />
@@ -35,17 +33,13 @@
 			</div>
 		</div>
 
-		<div class="row flex-nowrap mt-auto pb-5 pokemon-list" style="padding-left: 50%">
-			<!-- <img src="/images/ash.png" alt="" /> -->
-
+		<div class="row flex-nowrap mt-auto pb-5 pokemon-list">
 			<div v-for="dt in data" :key="dt.url" style="width: auto" class="d-flex align-items-end flex-column pokemon">
 				<a href="#" @click="renderDetail(dt)" class="mt-auto mr-5 text-center">
 					<img v-bind:src="dt.image" v-bind:style="{ height: (dt.detail.height * 10) + 'px' }" />
 					<h6 class="name mt-3">{{ dt.name }}</h6>
 					<small>
 						({{ dt.detail.height/10}}m)
-						<!-- <br> -->
-						<!-- <span v-if="dt.detail.id === 95">(!)Scaled 1/5</span>	 -->
 					</small>
 				</a>
 			</div>
@@ -91,14 +85,14 @@
 									<div class="row d-flex">
 										<div class="col-4">
 											<div class="nes-container with-title is-centered">
-												<p class="title">{{ selectedPokemon ? selectedPokemon.name : 'Loading Name...' }}</p>
+												<p class="title">{{ selectedPokemon ? capitalizeFirstLetter(selectedPokemon.name) : 'Loading Name...' }}</p>
 												<img :src="selectedPokemon.detail.sprites.front_default" :style="{ width: '160px' }" alt="" />
 											</div>
 											<div class="nes-container with-title">
 												<p class="title">Stats</p>
 												<table class="nes-table w-100">
 													<tbody>
-														<tr v-for="stat in selectedPokemon.detail.stats" :key="stat">
+														<tr v-for="stat in selectedPokemon.detail.stats" :key="stat.stat.url">
 															<td>{{ stat.stat.name }}</td>
 															<td></td>
 															<td class="text-right">{{ stat.base_stat }}</td>
@@ -168,15 +162,13 @@ var Jimp = require('jimp');
 export default {
 
 	mounted() {
-		console.log('Component mounted.')
+		console.log('FIELD MOUNTED! PRESS ANY KEY TO CONTINUE...')
 	},
 	created() {
 		this.render()
 	},
 	data() {
 		return {
-			title: 'Pokepedia',
-			description: 'This is Pokemon Encyclopedia',
 			data: [],
 			loading: false,
 			loadedPokemonCount: 0,
@@ -221,12 +213,10 @@ export default {
 				})
 				.catch(e => {
 					this.failedPokemonCount++
-					// this.data.push(pokemon)
 				})
       })
 		},
 		loadMore () {
-			// alert('this function will be coming very soon!')
 			this.loading = true
 			this.fetchPokemon(this.loadedPokemonCount)
 		},
@@ -248,93 +238,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
-.row {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-.row > .col-md-2 {
-  display: inline-block;
-  float: none;
-}
-.card {
-	background-color: transparent !important;
-	border: none;
-}
-.pokemon a {
-	color: black !important;
-}
-.pokemon a:hover {
-	text-decoration: none !important;
-}
-.pokemon a:hover img {
-	margin-bottom: 8px;
-	/* border-bottom: 1px solid black; */
-}
-.pokemon .name {
-	text-transform: capitalize;
-}
-header.row {
-	overflow-x: visible !important;
-	/* z-index: 0 !important; */
-}
-.pokemon {
-	/* z-index: 0 !important; */
-}
-.ash img {
-	/* z-index: 100; */
-}
-.nes-container {
-	margin: initial !important;
-}
-header {
-	/* z-index: 9999999 !important; */
-}
-.modal-lg {
-	width: 95% !important;
-	max-width: 95% !important;
-}
-.modal-body {
-	z-index: 1
-}
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
-}
-
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.github-link {
-	position: fixed;
-	top: 10px;
-	right: 10px;
-	z-index: 999;
-	display: flex;
-	height: 100px;
-	color: #333;
-	text-decoration: none;
-}
-.github-link:hover {
-  text-decoration: none;
-}
-.github-link > p.nes-balloon {
-  align-self: flex-start;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.8rem;
-  color: #333;
-}
-.github-link > i.nes-octocat {
-  align-self: flex-end;
-}
 </style>

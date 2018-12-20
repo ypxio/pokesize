@@ -1,6 +1,6 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
 // Variables
 @import 'variables';
@@ -8,11 +8,117 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+// NES.css
+@import 'https://unpkg.com/nes.css/css/nes.min.css';
+
+// .navbar-laravel {
+//   background-color: #fff;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+// }
 
 html, body, #app {
   height: 100%
+}
+
+body {
+  background-image: url('/images/bg.jpg');
+  background-size: cover;
+  background-position: bottom;
+  font-family: 'Press Start 2P', cursive !important;
+}
+
+.row {
+  overflow-x: auto;
+  white-space: nowrap;
+  &> .col-md-2 {
+    display: inline-block;
+    float: none;
+  }
+}
+
+.card {
+  background-color: transparent !important;
+  border: none;
+}
+
+.pokemon {
+  a {
+    color: black !important;
+    &:hover {
+      text-decoration: none !important;
+      img {
+        margin-bottom: 8px;
+      }
+    }
+  }
+  .name {
+    text-transform: capitalize;
+  }
+}
+
+.pokemon-list {
+  padding-left: 50%
+}
+
+.ash {
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+}
+
+header.row {
+  overflow-x: visible !important;
+}
+
+.nes-container {
+  margin: initial !important;
+}
+
+.modal-lg {
+  width: 95% !important;
+  max-width: 95% !important;
+}
+
+.modal-body {
+  z-index: 1
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.github-link {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+  display: flex;
+  height: 100px;
+  color: #333;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+  &> p.nes-ballon {
+    align-self: flex-start;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    color: #333;
+  }
+  &> i.nes-octocat {
+    align-self: flex-end;
+  }
 }
